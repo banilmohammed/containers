@@ -1,6 +1,6 @@
 # r-research
 
-R environment for research
+R environment for research applications
 
 - **Base:** `bioconductor/bioconductor_docker:RELEASE_3_23-R-4.6.1` (R 4.6.1, Bioconductor 3.23, Ubuntu 24.04)
 - **CRAN mirror:** [Posit Package Manager](https://packagemanager.posit.co) binary snapshot, `noble/2026-09-10` — pre-built binaries, no source compilation
