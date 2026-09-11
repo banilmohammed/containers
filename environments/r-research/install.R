@@ -10,8 +10,20 @@ install.packages(c(
   "bigstatsr",
   "ggrepel",
   "ggVennDiagram",
-  "data.table"
+  "data.table",
+  "glue",
+  "janitor",
+  "eulerr",
+  "IRkernel"
 ))
+
+IRkernel::installspec(user = FALSE)
+
+BiocManager::install(c(
+  "rtracklayer",
+  "ComplexHeatmap",
+  "GenomicRanges"
+), update = FALSE, ask = FALSE)
 
 remotes::install_github(
   "chrchang/plink-ng",
