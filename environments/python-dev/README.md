@@ -1,6 +1,6 @@
 # python-dev
 
-General-purpose Python data science environment.
+General-purpose Python data science development environment.
 
 - **Base:** `python:3.12.14-slim`
 - **Package manager:** [uv](https://docs.astral.sh/uv/) (installed from `ghcr.io/astral-sh/uv:0.12.13`), reading `requirements.txt`
