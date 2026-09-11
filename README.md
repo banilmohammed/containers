@@ -7,7 +7,7 @@ Personal Dockerfiles for development environments, built by GitHub Actions and p
 | Environment | Description |
 |---|---|
 | [python-dev](./environments/python-dev/) | General Python data science environment |
-| [r-research](./environments/r-research/) | R for statistical genetics research and PRS development |
+| [r-research](./environments/r-research/) | R for general research work
 | [r-seurat](./environments/r-seurat/) | r-research + Seurat, for single-cell/spatial transcriptomics |
 
 Each environment has its own README with the full package list and usage details.
