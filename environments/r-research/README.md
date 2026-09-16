@@ -10,7 +10,7 @@ R environment for research applications
 
 ## Packages
 
-See [install.R](./install.R) for the full install script.
+See [install.R](./install.R) for the full install script, or [PACKAGES.md](./PACKAGES.md) for the complete list of installed packages and versions (including transitive dependencies), generated from the built image.
 
 - **Tidyverse:** `tidyverse`
 - **Modeling:** `glmnet`, `lme4`, `broom`
