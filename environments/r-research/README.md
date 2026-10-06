@@ -13,11 +13,12 @@ R environment for research applications
 See [install.R](./install.R) for the full install script, or [PACKAGES.md](./PACKAGES.md) for the complete list of installed packages and versions (including transitive dependencies), generated from the built image.
 
 - **Tidyverse:** `tidyverse`
-- **Modeling:** `glmnet`, `lme4`, `broom`
+- **Modeling:** `glmnet`, `lme4`, `broom`, `broom.mixed` (tidy/glance/augment support for `lme4` mixed models)
 - **PRS-specific:** `bigsnpr`, `bigstatsr`
 - **Plotting:** `ggrepel`, `ggVennDiagram`, `ComplexHeatmap`, `eulerr`
 - **Genetics I/O:** `pgenlibr` (PLINK2 `.pgen` reader, installed from GitHub, pinned to a specific commit), `rtracklayer`, `GenomicRanges`
 - **Utility:** `data.table`, `glue`, `janitor`
+- **Editor support:** `languageserver` (powers IntelliSense/diagnostics for the [vscode-R](https://marketplace.visualstudio.com/items?itemName=REditorSupport.r) extension)
 
 ## Using arf as the R console in VS Code
 

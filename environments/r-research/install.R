@@ -14,7 +14,9 @@ install.packages(c(
   "glue",
   "janitor",
   "eulerr",
-  "IRkernel"
+  "IRkernel",
+  "broom.mixed",
+  "languageserver"
 ))
 
 IRkernel::installspec(user = FALSE)
