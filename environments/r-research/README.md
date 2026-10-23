@@ -17,8 +17,37 @@ See [install.R](./install.R) for the full install script, or [PACKAGES.md](./PAC
 - **PRS-specific:** `bigsnpr`, `bigstatsr`
 - **Plotting:** `ggrepel`, `ggVennDiagram`, `ComplexHeatmap`, `eulerr`
 - **Genetics I/O:** `pgenlibr` (PLINK2 `.pgen` reader, installed from GitHub, pinned to a specific commit), `rtracklayer`, `GenomicRanges`
+- **Spatial:** `sf` (simple features for spatial vector data; needs `libgdal34`/`libgeos-c1v5`/`libproj25`/`libsqlite3-0` at runtime, installed in the Dockerfile), `rnaturalearth` + `rnaturalearthdata` (world map data, bundled so `ne_countries()` etc. work offline)
 - **Utility:** `data.table`, `glue`, `janitor`
 - **Editor support:** `languageserver` (powers IntelliSense/diagnostics for the [vscode-R](https://marketplace.visualstudio.com/items?itemName=REditorSupport.r) extension)
+
+## Adding packages
+
+Packages are installed at build time from [install.R](./install.R) — installing a package inside a *running* container (e.g. `install.packages("foo")` at the R prompt) only lasts until the container exits, since the filesystem isn't persisted. To add a package permanently:
+
+1. **Check it has a pre-built binary at the pinned snapshot.** This repo's CRAN mirror is fixed to a dated [Posit Package Manager](https://packagemanager.posit.co) snapshot (`noble/2026-09-10`, set in `install.R`) rather than live CRAN, so builds stay reproducible. Most packages have binaries, but it's worth confirming before adding one — especially packages with compiled C/C++/Fortran code (e.g. anything using Rcpp) — since installing from source instead of a binary is slow and can fail without system `-dev` headers the image doesn't have. Check with:
+   ```bash
+   curl -sI -A "R (4.6.0 x86_64-pc-linux-gnu x86_64 linux-gnu)" \
+     "https://packagemanager.posit.co/cran/__linux__/noble/2026-09-10/src/contrib/<package>_<version>.tar.gz"
+   ```
+   A `200 OK` (or a redirect) with an `x-package-type: binary` response header confirms a binary exists. Find the exact version pinned at that snapshot (not necessarily the newest version on CRAN today) via:
+   ```bash
+   curl -s "https://packagemanager.posit.co/cran/__linux__/noble/2026-09-10/src/contrib/PACKAGES" | grep -A1 "^Package: <package>$"
+   ```
+2. **Add the package name to `install.R`** — to the CRAN `install.packages(c(...))` list for CRAN packages, or to the `BiocManager::install(c(...))` call for Bioconductor packages. No version number needed; the snapshot date is what pins it.
+3. **Rebuild and test locally** before pushing:
+   ```bash
+   docker build -t r-research:test environments/r-research
+   docker run --rm r-research:test Rscript -e 'library(<package>)'
+   ```
+4. **Commit and push.** The GitHub Actions workflow rebuilds and republishes the image automatically on a push that touches `environments/r-research/**`.
+5. **Regenerate [PACKAGES.md](./PACKAGES.md)** (optional but keeps it accurate) by querying the rebuilt image:
+   ```bash
+   docker run --rm r-research:test Rscript -e \
+     'write.table(installed.packages()[, c("Package","Version")], stdout(), sep="|", row.names=FALSE, quote=FALSE)'
+   ```
+
+Some packages (e.g. ones wrapping system libraries like GDAL/GEOS) may need an `apt-get install` line added to the `Dockerfile` for runtime shared libraries, even when installing from a PPM binary — check the package's CRAN `SystemRequirements` field if the install or a subsequent `library()` call fails.
 
 ## Using arf as the R console in VS Code
 

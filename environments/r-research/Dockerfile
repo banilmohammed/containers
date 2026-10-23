@@ -13,6 +13,11 @@ RUN curl -LO https://github.com/eitsupi/arf/releases/download/v0.5.2/arf-console
 
 RUN pip3 install --break-system-packages --no-cache-dir jupyter_core jupyter_client
 
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+       libgdal34 libgeos-c1v5 libproj25 libsqlite3-0 \
+    && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /workspace
 
 COPY install.R .

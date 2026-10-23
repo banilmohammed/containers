@@ -16,7 +16,10 @@ install.packages(c(
   "eulerr",
   "IRkernel",
   "broom.mixed",
-  "languageserver"
+  "languageserver",
+  "sf",
+  "rnaturalearth",
+  "rnaturalearthdata"
 ))
 
 IRkernel::installspec(user = FALSE)
